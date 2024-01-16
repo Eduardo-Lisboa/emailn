@@ -15,7 +15,7 @@ var (
 
 func Test_NewCampaingSuccess(t *testing.T) {
 	assert := assert.New(t)
-	campaing := NewCampaing(name, content, contacts)
+	campaing, _ := NewCampaing(name, content, contacts)
 	assert.Equal(campaing.Name, name)
 	assert.Equal(campaing.Content, content)
 	assert.Equal(len(campaing.Contacts), len(contacts))
@@ -24,14 +24,21 @@ func Test_NewCampaingSuccess(t *testing.T) {
 
 func Test_NewCampaing_IDIsNotNil(t *testing.T) {
 	assert := assert.New(t)
-	campaing := NewCampaing(name, content, contacts)
+	campaing, _ := NewCampaing(name, content, contacts)
 	assert.NotNil(campaing.ID)
 }
 
 func Test_NewCampaing_CreatedOnMustBeNow(t *testing.T) {
 	assert := assert.New(t)
 	now := time.Now().Add(-time.Minute)
-	campaing := NewCampaing(name, content, contacts)
+	campaing, _ := NewCampaing(name, content, contacts)
 	assert.Greater(campaing.CreatedOn, now)
+
+}
+
+func Test_NewCampaing_MustValidateName(t *testing.T) {
+	assert := assert.New(t)
+	_, err := NewCampaing("", content, contacts)
+	assert.Equal("name is required", err.Error())
 
 }
