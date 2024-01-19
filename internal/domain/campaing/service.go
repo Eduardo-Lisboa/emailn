@@ -6,8 +6,10 @@ type Service struct {
 	Repository Repository
 }
 
-func (s *Service) Create(newCampaing contract.NewCampaing) error {
+func (s *Service) Create(newCampaing contract.NewCampaing) (string, error) {
 
-	return nil
+	campaing, _ := NewCampaing(newCampaing.Name, newCampaing.Content, newCampaing.Emails)
+	s.Repository.Save(campaing)
+	return campaing.ID, nil
 
 }
