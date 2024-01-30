@@ -8,15 +8,15 @@ import (
 )
 
 type Contact struct {
-	Email string `validate: "email"`
+	Email string `validate:"email"`
 }
 
 type Campaing struct {
-	ID        string    `validate: "required"`
-	Name      string    `validate: "min=5,max=24"`
-	CreatedOn time.Time `validate: "required"`
-	Content   string    `validate: "min=5,max=1024"`
-	Contacts  []Contact `validate: "min=1"`
+	ID        string    `validate:"required"`
+	Name      string    `validate:"min=5,max=24"`
+	CreatedOn time.Time `validate:"required"`
+	Content   string    `validate:"min=5,max=1024"`
+	Contacts  []Contact `validate:"min=1,dive"`
 }
 
 func NewCampaing(name string, content string, emails []string) (*Campaing, error) {
@@ -35,9 +35,9 @@ func NewCampaing(name string, content string, emails []string) (*Campaing, error
 	}
 
 	err := internalerrors.ValidateStruct(campaing)
-	if err != nil {
-		return nil, err
+	if err == nil {
+		return campaing, nil
 	}
 
-	return campaing, nil
+	return nil, err
 }
