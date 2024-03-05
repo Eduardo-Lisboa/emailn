@@ -1,7 +1,7 @@
 package endpoints
 
-import "emailn/internal/domain/campaing"
+import campaing "emailn/internal/domain/campaign"
 
 type Handler struct {
-	CampaingService campaing.Service
+	CampaignService campaing.Service
 }

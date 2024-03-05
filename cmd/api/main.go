@@ -1,7 +1,7 @@
 package main
 
 import (
-	"emailn/internal/domain/campaing"
+	"emailn/internal/domain/campaign"
 	"emailn/internal/endpoints"
 	"emailn/internal/infrastructure/database"
 	"net/http"
@@ -18,15 +18,15 @@ func main() {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
-	campaingService := campaing.ServiceImp{
-		Repository: &database.CampaingRepository{},
+	campaignService := campaign.ServiceImp{
+		Repository: &database.CampaignRepository{},
 	}
 	handler := endpoints.Handler{
-		CampaingService: &campaingService,
+		CampaignService: &campaignService,
 	}
 
-	r.Post("/campaigns", endpoints.HandlerErro(handler.CampaingPost))
-	r.Get("/campaigns", endpoints.HandlerErro(handler.CampaingGet))
+	r.Post("/campaigns", endpoints.HandlerErro(handler.CampaignPost))
+	r.Get("/campaigns/{id}", endpoints.HandlerErro(handler.CampaignGetById))
 
 	http.ListenAndServe(":3000", r)
 
